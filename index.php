@@ -35,8 +35,14 @@ class User {
 			$q->closeCursor();
 			return $results;	
 		} catch (PDOException $e) {
-			http_error("500 Internal Server Error\n\n"."There was a SQL error:\n\n" . $e->getMessage()."<br>");
+			$this->http_error("500 Internal Server Error\n\n"."There was a SQL error:\n\n" . $e->getMessage()."<br>");
 		}	  
+	}
+
+	function http_error($message) 
+	{
+		header("Content-type: text/plain");
+		die($message);
 	}
 
 	function select() {
@@ -45,27 +51,27 @@ class User {
 		return $results;
 	}
 
-	function insert($id)
-}
+	function insert($id, $fname, $lname, $phone, $birthday, $gender, $password) {
+		$this->$id = $id;
+		$this->$fname = $fname;
+		$this->$lname = $lname;
+		$this->$phone = $phone;
+		$this->$birthday = $birthday;
+		$this->$gender = $gender;
+		$this->$password = $password;
 
-// Runs SQL query and returns results (if valid)
-function runQuery($query) {
-	global $conn;
-    try {
-		$q = $conn->prepare($query);
-		$q->execute();
-		$results = $q->fetchAll();
-		$q->closeCursor();
-		return $results;	
-	} catch (PDOException $e) {
-		http_error("500 Internal Server Error\n\n"."There was a SQL error:\n\n" . $e->getMessage()."<br>");
-	}	  
-}
+		$sql = "insert into accounts values ($id, $fname, $lname, $phone, $birthday, $gender, $password)";
+		$results = $this->runQuery($sql);
+		return $results;
+	}
 
-function http_error($message) 
-{
-	header("Content-type: text/plain");
-	die($message);
+	function delete($id) {
+		$this->$id = $id;
+
+		$sql = "delete from accounts where id=$id";
+		$results = $this->runQuery($sql);
+		return $results;
+	}
 }
 
 $sql = "select * from accounts where id < 6  ";
