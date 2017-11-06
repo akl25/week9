@@ -68,7 +68,17 @@ class User {
 	function delete($id) {
 		$this->$id = $id;
 
-		$sql = "delete from accounts where id=$id";
+		$sql = "delete from accounts where email=$email";
+		$results = $this->runQuery($sql);
+		return $results;
+	}
+
+	function update($fname, $lname, $password) {
+		$this->$fname = $fname;
+		$this->$lname = $lname;
+		$this->$password = $password;
+
+		$sql = "update accounts set password=$password where fname=$fname and lname=$lname";
 		$results = $this->runQuery($sql);
 		return $results;
 	}
