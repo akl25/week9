@@ -2,6 +2,7 @@
 class User {
 
 	var $id;
+	var $email;
 	var $fname;
 	var $lname;
 	var $phone;
@@ -47,7 +48,7 @@ class User {
 
 	function select() {
 		$sql = "select * from accounts";
-		$results = $this->runQuery($sql);
+		$results = self::runQuery($sql);
 		if(count($results) > 0)
 		{
 			echo "Number of records: ".count($results)."<br><br>";
@@ -61,8 +62,9 @@ class User {
 		}
 	}
 
-	function insert($id, $fname, $lname, $phone, $birthday, $gender, $password) {
+	function insert($id, $email, $fname, $lname, $phone, $birthday, $gender, $password) {
 		$this->$id = $id;
+		$this->$email = $email;
 		$this->$fname = $fname;
 		$this->$lname = $lname;
 		$this->$phone = $phone;
@@ -70,8 +72,8 @@ class User {
 		$this->$gender = $gender;
 		$this->$password = $password;
 
-		$sql = "insert into accounts values (".$id.",".$fname.",".$lname.",".$phone.",".$birthday.",".$gender.",".$password.")";
-		$results = $this->runQuery($sql);
+		$sql = "insert into accounts values (".$id.",".$email.",".$fname.",".$lname.",".$phone.",".$birthday.",".$gender.",".$password.")";
+		$results = self::runQuery($sql);
 		if(count($results) > 0)
 		{
 			echo "Number of records: ".count($results)."<br><br>";
@@ -85,11 +87,11 @@ class User {
 		}
 	}
 
-	function delete($id) {
-		$this->$id = $id;
+	function delete($email) {
+		$this->$email = $email;
 
 		$sql = "delete from accounts where email=".$email;
-		$results = $this->runQuery($sql);
+		$results = self::runQuery($sql);
 		return $results;
 	}
 
@@ -99,11 +101,14 @@ class User {
 		$this->$password = $password;
 
 		$sql = "update accounts set password=".$password." where fname=".$fname." and lname=".$lname;
-		$results = $this->runQuery($sql);
+		$results = self::runQuery($sql);
 		return $results;
 	}
 }
 
 $user = new User();
 $user->select();
+$user->insert(13,"akl25@njit.edu","Alex","Lee","732-555-1234","1994-08-16","male", "test1234");
+$user->delete("akl25@njit.edu");
+$user->update("Alex","Lee","sg123");
 ?>
