@@ -10,7 +10,8 @@ class User {
 	var $gender;
 	var $password;
 
-	function __construct() {
+	function __construct() 
+	{
 		$hostname = "sql2.njit.edu";
 		$username = "akl25";
 		$password = "9TCE4kP41";
@@ -29,7 +30,8 @@ class User {
 	}
 
 	// Runs SQL query and returns results (if valid)
-	private function runQuery($query) {
+	private function runQuery($query) 
+	{
 		global $conn;
 	    try {
 			$q = $conn->prepare($query);
@@ -42,28 +44,33 @@ class User {
 		}	  
 	}
 
-	function http_error($message) 
+	private function http_error($message) 
 	{
 		header("Content-type: text/plain");
 		die($message);
 	}
 
-	function select() {
+	public function select() 
+	{
 		$sql = "select * from accounts";
-		$results = runQuery($sql);
+		$results = self::runQuery($sql);
 		if(count($results) > 0)
 		{
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
-			foreach ($results as $row) {
+			foreach ($results as $row) 
+			{
 				echo "<tr><td>".$row["id"]."</td><td>".$row["email"]."</td><td>".$row["fname"]."</td><td>".$row["lname"]."</td><td>".$row["phone"]."</td><td>".$row["birthday"]."</td><td>".$row["gender"]."</td><td>".$row["password"]."</td></tr>";
 			}
 			
-		}else{
+		}
+		else
+		{
 		    echo '0 results';
 		}
 	}
 
-	function insert($id, $email, $fname, $lname, $phone, $birthday, $gender, $password) {
+	public function insert($id, $email, $fname, $lname, $phone, $birthday, $gender, $password) 
+	{
 		$this->$id = $id;
 		$this->$email = $email;
 		$this->$fname = $fname;
@@ -78,55 +85,66 @@ class User {
 		if(count($results) > 0)
 		{
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
-			foreach ($results as $row) {
+			foreach ($results as $row) 
+			{
 				echo "<tr><td>".$row["id"]."</td><td>".$row["email"]."</td><td>".$row["fname"]."</td><td>".$row["lname"]."</td><td>".$row["phone"]."</td><td>".$row["birthday"]."</td><td>".$row["gender"]."</td><td>".$row["password"]."</td></tr>";
 			}
 			
-		}else{
+		}
+		else
+		{
 		    echo '0 results';
 		}
 	}
 
-	function delete($email) {
+	public function delete($email) 
+	{
 		$this->$email = $email;
 
 		$sql = "delete from accounts where email=".$email;
-		$results = runQuery($sql);
+		$results = $this->runQuery($sql);
 		if(count($results) > 0)
 		{
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
-			foreach ($results as $row) {
+			foreach ($results as $row) 
+			{
 				echo "<tr><td>".$row["id"]."</td><td>".$row["email"]."</td><td>".$row["fname"]."</td><td>".$row["lname"]."</td><td>".$row["phone"]."</td><td>".$row["birthday"]."</td><td>".$row["gender"]."</td><td>".$row["password"]."</td></tr>";
 			}
 			
-		}else{
+		}
+		else
+		{
 		    echo '0 results';
 		}
 	}
 
-	function update($fname, $lname, $password) {
+	function update($fname, $lname, $password) 
+	{
 		$this->$fname = $fname;
 		$this->$lname = $lname;
 		$this->$password = $password;
 
 		$sql = "update accounts set password=".$password." where fname=".$fname." and lname=".$lname;
-		$results = runQuery($sql);
+		$results = $this->runQuery($sql);
 		if(count($results) > 0)
 		{
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
-			foreach ($results as $row) {
+			foreach ($results as $row) 
+			{
 				echo "<tr><td>".$row["id"]."</td><td>".$row["email"]."</td><td>".$row["fname"]."</td><td>".$row["lname"]."</td><td>".$row["phone"]."</td><td>".$row["birthday"]."</td><td>".$row["gender"]."</td><td>".$row["password"]."</td></tr>";
 			}
 			
-		}else{
+		}
+		else
+		{
 		    echo '0 results';
 		}
 	}
 }
 
 $user = new User();
-$user->select();
-$user->insert(13,"akl25@njit.edu","Alex","Lee","732-555-1234","1994-08-16","male", "test1234");
-$user->delete("akl25@njit.edu");
-$user->update("Alex","Lee","sg123");
+echo $user->select();
+echo $user->insert(13,"akl25@njit.edu","Alex","Lee","732-555-1234","1994-08-16","male", "test1234");
+echo $user->delete("akl25@njit.edu");
+echo $user->update("Alex","Lee","pw123");
 ?>
