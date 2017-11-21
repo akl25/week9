@@ -1,16 +1,8 @@
 <?php
 class User {
+	private $id, $email, $fname, $lname, $phone, $birthday, $gender, $password;
 
-	var $id;
-	var $email;
-	var $fname;
-	var $lname;
-	var $phone;
-	var $birhtday;
-	var $gender;
-	var $password;
-
-	function __construct() 
+	public function __construct() 
 	{
 		$hostname = "sql2.njit.edu";
 		$username = "akl25";
@@ -30,7 +22,7 @@ class User {
 	}
 
 	// Runs SQL query and returns results (if valid)
-	private function runQuery($query) 
+	protected function runQuery($query) 
 	{
 		global $conn;
 	    try {
@@ -44,7 +36,7 @@ class User {
 		}	  
 	}
 
-	private function http_error($message) 
+	protected function http_error($message) 
 	{
 		header("Content-type: text/plain");
 		die($message);
@@ -53,7 +45,7 @@ class User {
 	public function select() 
 	{
 		$sql = "select * from accounts";
-		$results = self::runQuery($sql);
+		$results = $this->runQuery($sql);
 		if(count($results) > 0)
 		{
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
