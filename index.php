@@ -22,7 +22,7 @@ class User {
 	}
 
 	// Runs SQL query and returns results (if valid)
-	protected function runQuery($query) 
+	private function runQuery($query) 
 	{
 		global $conn;
 	    try {
@@ -36,7 +36,7 @@ class User {
 		}	  
 	}
 
-	protected function http_error($message) 
+	private function http_error($message) 
 	{
 		header("Content-type: text/plain");
 		die($message);
@@ -110,7 +110,7 @@ class User {
 		}
 	}
 
-	function update($fname, $lname, $password) 
+	public function update($fname, $lname, $password) 
 	{
 		$this->$fname = $fname;
 		$this->$lname = $lname;
@@ -135,8 +135,8 @@ class User {
 }
 
 $user = new User();
-echo $user->select();
-echo $user->insert(13,"akl25@njit.edu","Alex","Lee","732-555-1234","1994-08-16","male", "test1234");
-echo $user->delete("akl25@njit.edu");
-echo $user->update("Alex","Lee","pw123");
+$user->select();
+$user->insert(13,"akl25@njit.edu","Alex","Lee","732-555-1234","1994-08-16","male", "test1234");
+$user->delete("akl25@njit.edu");
+$user->update("Alex","Lee","pw123");
 ?>
