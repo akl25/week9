@@ -24,12 +24,12 @@ class User {
 		catch(PDOException $e)
 		{
 			// echo "Connection failed: " . $e->getMessage();
-			$this->http_error("500 Internal Server Error\n\n"."There was a SQL error:\n\n" . $e->getMessage().'<br>');
+			http_error("500 Internal Server Error\n\n"."There was a SQL error:\n\n" . $e->getMessage().'<br>');
 		}
 	}
 
 	// Runs SQL query and returns results (if valid)
-	function runQuery($query) {
+	private function runQuery($query) {
 		global $conn;
 	    try {
 			$q = $conn->prepare($query);
@@ -38,7 +38,7 @@ class User {
 			$q->closeCursor();
 			return $results;	
 		} catch (PDOException $e) {
-			$this->http_error("500 Internal Server Error\n\n"."There was a SQL error:\n\n" . $e->getMessage()."<br>");
+			http_error("500 Internal Server Error\n\n"."There was a SQL error:\n\n" . $e->getMessage()."<br>");
 		}	  
 	}
 
@@ -50,10 +50,9 @@ class User {
 
 	function select() {
 		$sql = "select * from accounts";
-		$results = $this->runQuery($sql);
+		$results = runQuery($sql);
 		if(count($results) > 0)
 		{
-			echo "Number of records: ".count($results)."<br><br>";
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
 			foreach ($results as $row) {
 				echo "<tr><td>".$row["id"]."</td><td>".$row["email"]."</td><td>".$row["fname"]."</td><td>".$row["lname"]."</td><td>".$row["phone"]."</td><td>".$row["birthday"]."</td><td>".$row["gender"]."</td><td>".$row["password"]."</td></tr>";
@@ -78,7 +77,6 @@ class User {
 		$results = $this->runQuery($sql);
 		if(count($results) > 0)
 		{
-			echo "Number of records: ".count($results)."<br><br>";
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
 			foreach ($results as $row) {
 				echo "<tr><td>".$row["id"]."</td><td>".$row["email"]."</td><td>".$row["fname"]."</td><td>".$row["lname"]."</td><td>".$row["phone"]."</td><td>".$row["birthday"]."</td><td>".$row["gender"]."</td><td>".$row["password"]."</td></tr>";
@@ -93,10 +91,9 @@ class User {
 		$this->$email = $email;
 
 		$sql = "delete from accounts where email=".$email;
-		$results = $this->runQuery($sql);
+		$results = runQuery($sql);
 		if(count($results) > 0)
 		{
-			echo "Number of records: ".count($results)."<br><br>";
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
 			foreach ($results as $row) {
 				echo "<tr><td>".$row["id"]."</td><td>".$row["email"]."</td><td>".$row["fname"]."</td><td>".$row["lname"]."</td><td>".$row["phone"]."</td><td>".$row["birthday"]."</td><td>".$row["gender"]."</td><td>".$row["password"]."</td></tr>";
@@ -113,10 +110,9 @@ class User {
 		$this->$password = $password;
 
 		$sql = "update accounts set password=".$password." where fname=".$fname." and lname=".$lname;
-		$results = $this->runQuery($sql);
+		$results = runQuery($sql);
 		if(count($results) > 0)
 		{
-			echo "Number of records: ".count($results)."<br><br>";
 			echo "<table border=\"1\"><tr><th>ID</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Birthday</th><th>Gender</th><th>Pass</th></tr>";
 			foreach ($results as $row) {
 				echo "<tr><td>".$row["id"]."</td><td>".$row["email"]."</td><td>".$row["fname"]."</td><td>".$row["lname"]."</td><td>".$row["phone"]."</td><td>".$row["birthday"]."</td><td>".$row["gender"]."</td><td>".$row["password"]."</td></tr>";
